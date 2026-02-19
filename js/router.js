@@ -1,10 +1,15 @@
+import { renderDashboard } from './pages/dashboard.js';
+import { renderBudget } from './pages/budget.js';
+import { renderChecklist } from './pages/checklist.js'; 
+import { renderNotes } from './pages/notes.js';
+
 const routes = { //таблица соответствия, обычный объект. Удобство: потом используем routes[hash]() без повторения if несколько раз
     dashboard: renderDashboard,
     budget: renderBudget,
     checklist: renderChecklist,
     notes: renderNotes
 }
-function router () {
+export function router (app) {
 
     const hash = location.hash.replace('#','')||'dashboard';
     //location.hash - встроенное свойство браузера. Если url site.com/#notes, то location.hash будет равно '#notes'. 
@@ -15,10 +20,8 @@ function router () {
     // Мы НЕ вызываем функцию тут, а получаем на нее ссылку
 
     if (page) { //проверка существования маршрута
-        page() //вызываем функцию, которая отрисовывает страницу
+        page(app) //вызываем функцию, которая отрисовывает страницу
     } else {
-        renderNotFound();
+        app.innerHTML = '<h2>404</h2>';
     }
 }
-window.addEventListener('hashchange', router); // когда изменится # в URL — вызови router()
-window.addEventListener('load', router); // когда страница впервые загрузилась — вызови router() (иначе <main id="app"></main> останется пустым)

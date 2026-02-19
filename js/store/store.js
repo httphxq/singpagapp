@@ -1,5 +1,5 @@
-const state = {
-    counties: [
+export const state = {
+    countries: [
         {
             id:1,
             name: 'Italy',
